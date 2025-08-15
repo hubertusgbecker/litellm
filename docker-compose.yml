@@ -5,6 +5,7 @@ services:
       args:
         target: runtime
     image: ghcr.io/berriai/litellm:main-stable
+	container_name: litellm
     #########################################
     ## Uncomment these lines to start proxy with a config.yaml file ##
     # volumes:
@@ -31,13 +32,13 @@ services:
   db:
     image: postgres:16
     restart: always
-    container_name: litellm_db
+    container_name: litellm-db
     environment:
       POSTGRES_DB: litellm
       POSTGRES_USER: llmproxy
       POSTGRES_PASSWORD: dbpassword9090
-    ports:
-      - "5432:5432"
+    #ports:
+    #  - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data # Persists Postgres data across container restarts
     healthcheck:
@@ -48,6 +49,7 @@ services:
 
   prometheus:
     image: prom/prometheus
+	container_name: litellm-prometheus
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
