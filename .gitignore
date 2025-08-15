@@ -94,3 +94,9 @@ test.py
 litellm_config.yaml
 .cursor
 .vscode/launch.json
+
+
+#config/**
+!config/.gitkeep
+config/github_copilot/**
+!config/github_copilot/.gitkeep
