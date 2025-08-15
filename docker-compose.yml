@@ -5,7 +5,7 @@ services:
       args:
         target: runtime
     image: ghcr.io/berriai/litellm:main-stable
-	container_name: litellm
+    container_name: litellm
     #########################################
     ## Uncomment these lines to start proxy with a config.yaml file ##
     # volumes:
@@ -49,7 +49,7 @@ services:
 
   prometheus:
     image: prom/prometheus
-	container_name: litellm-prometheus
+    container_name: litellm-prometheus
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
