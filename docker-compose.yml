@@ -5,6 +5,8 @@ services:
       args:
         target: runtime
     image: docker.litellm.ai/berriai/litellm:main-stable
+    container_name: litellm
+    restart: always
     #########################################
     ## Uncomment these lines to start proxy with a config.yaml file ##
     # volumes:
@@ -12,6 +14,11 @@ services:
     # command:
     #  - "--config=/app/config.yaml"
     ##############################################
+    volumes:
+      - ./config.yaml:/app/config.yaml
+      - ./config/github_copilot:/root/.config/litellm/github_copilot
+    command:
+      - "--config=/app/config.yaml"
     ports:
       - "4000:4000" # Map the container port to the host, change the host port if necessary
     environment:
@@ -33,13 +40,13 @@ services:
   db:
     image: postgres:16
     restart: always
-    container_name: litellm_db
+    container_name: litellm-db
     environment:
       POSTGRES_DB: litellm
       POSTGRES_USER: llmproxy
       POSTGRES_PASSWORD: dbpassword9090
-    ports:
-      - "5432:5432"
+    #ports:
+    #  - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data # Persists Postgres data across container restarts
     healthcheck:
@@ -50,6 +57,7 @@ services:
 
   prometheus:
     image: prom/prometheus
+    container_name: litellm-prometheus
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
